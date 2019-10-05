@@ -26,13 +26,16 @@ $router->get('/api/v1/words/{language}/{word}', function($language, $word) use (
         : 3;
 
     $wordToSearch = substr($word, $size * -1);
+    $words = array_values(array_filter($allWords, function($w) use ($wordToSearch) {
+        return preg_match("/$wordToSearch$/", $w);
+    }));
+
+    sort($words);
 
     return [
         'data' => [
             'language' => $language,
-            'words' => array_values(array_filter($allWords, function($w) use ($wordToSearch) {
-                return preg_match("/$wordToSearch$/", $w);
-            })),
+            'words' => $words,
         ],
     ];
 });
