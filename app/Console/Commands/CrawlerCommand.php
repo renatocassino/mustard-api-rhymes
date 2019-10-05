@@ -49,30 +49,35 @@ class CrawlerCommand extends Command
      */
     public function handle()
     {
-        $cssQuery = '.list-title+p+p';
-        $client = new Client();
+        $words = file_get_contents('database/seeds/words/pt-br.txt');
+        $words = explode("\n", $words);
+        $words = array_unique($words);
+        sort($words);
+        file_put_contents('database/seeds/words/pt-br.txt', implode("\n", $words));
+        // $cssQuery = '.list-title+p+p';
+        // $client = new Client();
 
-        $lettersWithError = [];
+        // $lettersWithError = [];
 
-        for($letter = 'a'; $letter !== 'aa'; $letter++) {
-            try {
-                $url = "https://www.dicio.com.br/palavras-terminam-$letter/";
-                echo "Requesting $url ...";
-                $res = $client->request('GET', $url);
-                $body = $res->getBody();
+        // for($letter = 'a'; $letter !== 'aa'; $letter++) {
+        //     try {
+        //         $url = "https://www.dicio.com.br/palavras-terminam-$letter/";
+        //         echo "Requesting $url ...";
+        //         $res = $client->request('GET', $url);
+        //         $body = $res->getBody();
 
-                $dom = HtmlDomParser::str_get_html( $body );
-                $words = explode("<br />", utf8_encode($dom->find($cssQuery)[1]->innerText()));
-                foreach ($words as $word) {
-                    $words = file_put_contents('database/seeds/words/pt-br.txt', $word . PHP_EOL, FILE_APPEND);
-                }
-                echo $words;
-            } catch (Exception $e) {
-                $lettersWithError[] = $letter;
-            }
-        }
+        //         $dom = HtmlDomParser::str_get_html( $body );
+        //         $words = explode("<br />", utf8_encode($dom->find($cssQuery)[1]->innerText()));
+        //         foreach ($words as $word) {
+        //             $words = file_put_contents('database/seeds/words/pt-br.txt', $word . PHP_EOL, FILE_APPEND);
+        //         }
+        //         echo $words;
+        //     } catch (Exception $e) {
+        //         $lettersWithError[] = $letter;
+        //     }
+        // }
 
-        echo "Letters with error";
-        var_dump($lettersWithError);
+        // echo "Letters with error";
+        // var_dump($lettersWithError);
     }
 }
