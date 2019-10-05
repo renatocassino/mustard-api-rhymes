@@ -1,10 +1,3 @@
-
-<hr>
-ACTH
-ADP
-AMB
-ATP
-AVC
 Alceu
 Amadeu
 Açores
@@ -38,7 +31,6 @@ GLP
 HIV
 HPV
 Hipócrates
-I.N.R.I
 ICMS
 IDH
 IOF
@@ -46,39 +38,7 @@ IPI
 ISS
 Imhotep
 Inês
-J
 Jesus
-KGB
-LCD
-LSD
-MC
-MDB
-MEC
-MIF
-MMC
-OK
-OMS
-ONG
-OTC
-PATRI
-PCB
-PCdoB
-PDT
-PIB
-PMB
-PP
-PRB
-PRP
-PRTB
-PSB
-PSC
-PSD
-PSDB
-PT
-PTB
-PTC
-PV
-PVC
 Paraguai
 Pentecostes
 Petrobras
@@ -95,12 +55,8 @@ UI
 UTI
 Ulisses
 Uruguai
-V
 VIP
-Y
 Zeus
-a
-a olho nu
 aaru
 ab
 aba
@@ -29659,7 +29615,6 @@ aúnam
 aúne
 aúnem
 aúno
-b
 baalins
 baba
 bababi
@@ -36222,7 +36177,6 @@ búlgara
 búlgaro
 bússola
 búzio
-c
 caaguaçu
 caaobi
 caapi
@@ -57422,7 +57376,6 @@ cúpula
 cúria
 cúspide
 cútis
-d
 dacar
 dachshund
 dactilografa
@@ -57612,7 +57565,6 @@ daqueloutro
 daqui
 daquilo
 dar
-dar uma luz
 dardeja
 dardejada
 dardejado
@@ -80998,7 +80950,6 @@ dúctila
 dúplice
 dúvida
 dúzia
-e
 e-book
 eai
 ebanizada
@@ -82141,7 +82092,6 @@ elíptica
 elíptico
 elísia
 elísio
-em tal grau
 ema
 emace
 emacia
@@ -103773,7 +103723,6 @@ eólica
 eólico
 eólio
 eões
-f
 fabrica
 fabricada
 fabricado
@@ -110194,7 +110143,6 @@ fúngico
 fúria
 fúteis
 fútil
-g
 gaba
 gabada
 gabadela
@@ -114550,7 +114498,6 @@ górdio
 gótica
 gótico
 gôndola
-h
 habeo
 habilidade
 habilidosa
@@ -116621,7 +116568,6 @@ húmido
 húmus
 húngara
 húngaro
-i
 iaburu
 iacu
 iam
@@ -118995,8 +118941,6 @@ imérito
 imóbil
 imóbilidade
 imóvel
-in casu
-in situ
 inabalavelmente
 inabalável
 inabdicável
@@ -126457,7 +126401,6 @@ iódico
 iónica
 iónico
 iónio
-j
 jabiru
 jaborandi
 jabu
@@ -127505,7 +127448,6 @@ júlio
 júnior
 júpiter
 júri
-k
 kantiano
 kantismo
 kart
@@ -143579,7 +143521,6 @@ noçãozinha
 noções
 ntfs
 nu
-nu e cru
 nua
 nuamente
 nuance
@@ -147025,7 +146966,6 @@ ozónio
 oásico
 oásis
 oídio
-p
 pH
 paaguaçu
 paari
@@ -148993,7 +148933,6 @@ pareou
 pareçam
 pargo
 pari
-pari passu
 paria
 pariam
 parida
@@ -155637,7 +155576,6 @@ populosa
 populoso
 populosíssima
 por
-por um triz
 porca
 porcada
 porcalhona
@@ -161882,7 +161820,6 @@ púrpura
 pústula
 pútrida
 pútrido
-q
 qid
 qs
 quadra
@@ -181208,7 +181145,6 @@ rúpia
 rússia
 rústica
 rústico
-s
 saariana
 saariano
 sabacu
@@ -191293,7 +191229,6 @@ súpero
 súpito
 súplica
 súplice
-t
 tabacal
 tabacaria
 tabaco
@@ -198968,7 +198903,6 @@ túrbida
 túrbido
 túrgida
 túrgido
-u
 uacari
 uai
 uaipi
@@ -199933,7 +199867,6 @@ uzbeque
 uádi
 uçu
 uísque
-v
 vaca
 vacada
 vacante
@@ -204187,7 +204120,6 @@ vórtice
 vós
 vôlei
 vôngole
-w
 walt
 wan
 wap
@@ -204360,13 +204292,11 @@ xuru
 xviii
 xénon
 xícara
-y
 yagi
 yang
 yd
 yin-yang
 yogurt
-z
 zabucaí
 zabumba
 zagaia
@@ -204948,7 +204878,6 @@ zóster
 ânsia
 ânsias
 ânus
-ç
 ébano
 ébria
 ébrio
