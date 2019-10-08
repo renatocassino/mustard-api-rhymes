@@ -15,12 +15,17 @@ $router->get('/healthcheck', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/api/v1/words/{language}/{word}', function($language, $word) use ($router) {
+$allWords = false;
+
+$router->get('/api/v1/words/{language}/{word}', function($language, $word) use ($router, &$allWords) {
     if ($language !== 'pt-br' && $language !== 'en') {
         return response()->json(['error' => 'Must have language pt-br or en'], 404, []);
     }
 
-    $allWords = explode("\n", file_get_contents("../database/seeds/words/$language.txt"));
+    if (!$allWords) {
+        $allWords = explode("\n", file_get_contents(__DIR__ . "/../database/seeds/words/$language.txt"));
+    }
+
     $size = isset($_GET['size'])
         ? (int) $_GET['size']
         : 3;

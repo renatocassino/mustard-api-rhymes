@@ -8,7 +8,9 @@
         "php": "^7.2",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/lumen-framework": "^6.0",
-        "sunra/php-simple-html-dom-parser": "^1.5"
+        "sunra/php-simple-html-dom-parser": "^1.5",
+	"react/event-loop": "^1.1",
+	"react/http": "^0.8.4"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.4",
