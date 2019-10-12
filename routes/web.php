@@ -10,6 +10,7 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
+use Illuminate\Http\Response;
 
 $router->get('/healthcheck', function () use ($router) {
     return $router->app->version();
@@ -37,10 +38,14 @@ $router->get('/api/v1/words/{language}/{word}', function($language, $word) use (
 
     sort($words);
 
-    return [
+    $content = [
         'data' => [
             'language' => $language,
             'words' => $words,
         ],
     ];
+
+    return (new Response($content, 200))
+                  ->header('Content-Type', 'application/json')
+                  ->header('Access-Control-Allow-Origin', '*');
 });
