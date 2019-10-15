@@ -1,4 +1,0 @@
---- 
-server:
-  path: ./public/
-  port: 8000
