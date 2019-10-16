@@ -22,6 +22,16 @@ class RhymesController extends AbstractController
             ? (int) $_GET['size']
             : 3;
 
+        $page = isset($_GET['page'])
+            ? (int) $_GET['page']
+            : 1;
+        
+        $limit = isset($_GET['limit'])
+            ? (int) $_GET['limit']
+            : 30;
+
+        $offset = ($page - 1) * $limit;
+
         $wordToSearch = substr($word, $size * -1);
         $words = array_values(array_filter($allWords, function($w) use ($wordToSearch) {
             return preg_match("/$wordToSearch$/", $w);
@@ -29,10 +39,27 @@ class RhymesController extends AbstractController
 
         sort($words);
 
+        $total = count($words);
+
+        $next = "/api/v1/rhymes/$language/$word?page=" . ($page + 1) . "&limit=$limit";
+        if (($page + 1) * $limit > $total) {
+            $next = null;
+        }
+
+        $last = "/api/v1/rhymes/$language/$word?page=" . ceil($total / $limit) . "&limit=$limit";
+        if ($total === 0) {
+            $last = null;
+        }
+
         $content = [
+            'links' => [
+                'self' => "/api/v1/rhymes/$language/$word?page=$page&limit=$limit",
+                'next' => $next,
+                'last' => $last,
+            ],
             'data' => [
                 'language' => $language,
-                'words' => $words,
+                'words' => array_slice($words, $offset, $limit),
             ],
         ];
 
