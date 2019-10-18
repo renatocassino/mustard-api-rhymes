@@ -39,6 +39,7 @@ class UserRepository extends ServiceEntityRepository
         $entityManager->persist($user);
         $entityManager->flush();
 
+        return $user;
     }
 
     // /**

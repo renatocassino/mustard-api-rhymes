@@ -6,6 +6,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\User;
 
+use Firebase\JWT\JWT;
 use GuzzleHttp\Client;
 
 class OauthController extends AbstractController {
@@ -53,6 +54,17 @@ class OauthController extends AbstractController {
       ->getRepository(User::class)
       ->createOrUpdate($data);
 
-    return $this->json($data);
+    $key = "example_key";
+    $token = array(
+        "iss" => "http://example.org",
+        "aud" => "http://example.com",
+        'email' => $user->getEmail(),
+        "iat" => 1356999524,
+        "nbf" => 1357000000
+    );
+
+    return $this->json([
+      'token' => JWT::encode($token, $key),
+    ]);
   }
 }
