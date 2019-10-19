@@ -3,10 +3,15 @@
 namespace App\EventSubscriber;
 
 use App\Controller\AuthenticatedController;
+use App\Helper\JwtParse;
+
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+
 
 class AuthSubscriber implements EventSubscriberInterface {
     // private $tokens;
@@ -27,19 +32,54 @@ class AuthSubscriber implements EventSubscriberInterface {
         }
 
         if ($controller instanceof AuthenticatedController) {
-            // $token = $event->getRequest()->query->get('token');
+            try {
+            $token = $_GET['token'];
+            JwtParse::decode($token);
+            $event->getRequest()->attributes->set('auth_token', $token);
+            } catch (\Exception $e) {
+                throw new AccessDeniedHttpException('This action needs a valid token!');
+            }
+        }
+    }
 
-            // throw new AccessDeniedHttpException('This action needs a valid token!');
+    public function onKernelException(GetResponseForExceptionEvent $event): void
+    {
+        // Skip if request is not an API-request
+        $request = $event->getRequest();
+        if (strpos($request->getPathInfo(), '/api/') !== 0) {
+            return;
         }
 
-        $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9leGFtcGxlLm9yZyIsImF1ZCI6Imh0dHA6XC9cL2V4YW1wbGUuY29tIiwiZW1haWwiOiJyZW5hdG9jYXNzaW5vQGdtYWlsLmNvbSIsImlhdCI6MTM1Njk5OTUyNCwibmJmIjoxMzU3MDAwMDAwfQ.c1C1_agMuohqr519P0TMX_pLGqykZWgK-E-7TL_gi5o';
-        $event->getRequest()->attributes->set('auth_token', $token);
+        $exception = $event->getException();
+        $error = [
+            'type' => $this->getErrorTypeFromException($exception),
+            'message' => $exception->getMessage(),
+        ];
+        $response = new JsonResponse($error, $this->getStatusCodeFromException($exception));
+        $event->setResponse($response);
     }
 
     public static function getSubscribedEvents()
     {
         return [
             KernelEvents::CONTROLLER => 'onKernelController',
+            KernelEvents::EXCEPTION => 'onKernelException',
         ];
+    }
+
+    private function getErrorTypeFromException(\Throwable $exception): string
+    {
+        $parts = explode('\\', get_class($exception));
+
+        return end($parts);
+    }
+
+    private function getStatusCodeFromException(\Throwable $exception): int
+    {
+        if ($exception instanceof HttpException) {
+            return $exception->getStatusCode();
+        }
+
+        return 500;
     }
 }
