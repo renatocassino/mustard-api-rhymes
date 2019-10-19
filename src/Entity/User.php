@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -56,6 +58,15 @@ class User implements \JsonSerializable
      * @ORM\Column(type="string", length=10)
      */
     private $locale;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Lyric", mappedBy="user")
+     */
+    private $lyrics;
+
+    public function __construct() {
+        $this->lyrics = new ArrayCollection();
+    }
 
     public function setId($id) {
         $this->id = $id;
@@ -160,6 +171,14 @@ class User implements \JsonSerializable
         $this->locale = $locale;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getLyrics(): Collection
+    {
+        return $this->lyrics;
     }
 
     public function jsonSerialize() {

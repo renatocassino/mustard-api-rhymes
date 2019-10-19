@@ -6,6 +6,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Lyric;
+use App\Entity\User;
 
 class LyricsController extends AbstractController implements AuthenticatedController {
   use AuthTraitController;
@@ -15,12 +16,18 @@ class LyricsController extends AbstractController implements AuthenticatedContro
    */
   public function listLyrics(Request $request) {
     $user = $this->getUserByToken($request);
+    // $userDB = $this->getDoctrine()
+    //   ->getRepository(User::class)
+    //   ->find($user->id);
+
+    // $lyrics = $userDB->getLyrics();
     $lyrics = $this->getDoctrine()
       ->getRepository(Lyric::class)
-      ->findAll();
+      ->findBy([
+        'user' => $user->id,
+      ]);
 
     return $this->json([
-      'user' => $user,
       'data' => array_map(function($lyric) {
         return [
           'title' => $lyric->getTitle(),
