@@ -13,7 +13,6 @@ class OauthController extends AbstractController {
   private function getClient() {
     $client = new \Google_Client();
     $client->setAuthConfig(dirname(__FILE__) . '/../../config/google.json');
-    // $redirectUri = 'http://api.mustardplayer.io/auth/callback';
     $redirectUri = 'http://' . $_SERVER['HTTP_HOST'] . '/auth/callback';
     $client->setRedirectUri($redirectUri);
     return $client;
@@ -37,7 +36,10 @@ class OauthController extends AbstractController {
    */
   public function authCallback() {
     if (!isset($_GET['code'])) {
-      return $this->redirect('/?error');
+      return $this->json([
+        'error' => 'forbidden',
+        'message' => 'I\'m seeing you man',
+      ], 403);
     }
 
     $client = $this->getClient();
@@ -54,16 +56,6 @@ class OauthController extends AbstractController {
       ->getRepository(User::class)
       ->createOrUpdate($data);
 
-    $data = array(
-        "iss" => "http://example.org",
-        "aud" => "http://example.com",
-        'email' => $user->getEmail(),
-        "iat" => 1356999524,
-        "nbf" => 1357000000
-    );
-
-    return $this->json([
-      'token' => JWTParse::encode($data),
-    ]);
+    return $this->redirect('http://localhost:3000/#' . JwtParse::encode($user));
   }
 }

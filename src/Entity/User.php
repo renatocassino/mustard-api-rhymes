@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table("users")
  */
-class User
+class User implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -56,6 +56,10 @@ class User
      * @ORM\Column(type="string", length=10)
      */
     private $locale;
+
+    public function setId($id) {
+        $this->id = $id;
+    }
 
     public function getId(): ?int
     {
@@ -156,5 +160,35 @@ class User
         $this->locale = $locale;
 
         return $this;
+    }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->getId(),
+            'googleId' => $this->getGoogleId(),
+            'email' => $this->getEmail(),
+            'emailVerified' => $this->getEmailVerified(),
+            'name' => $this->getName(),
+            'givenName' => $this->getGivenName(),
+            'familyName' => $this->getFamilyName(),
+            'picture' => $this->getPicture(),
+            'locale' => $this->getLocale(),
+            'accessToken' => uniqid(uniqid(uniqid(uniqid(uniqid())))),
+        ];
+    }
+
+    public function setByToken($token) {
+        $data64 = explode('.', $token)[1];
+        $userArray = json_decode(base64_decode($data64));
+
+        $this->setId($userArray->id);
+        $this->setGoogleId($userArray->googleId);
+        $this->setEmail($userArray->email);
+        $this->setEmailVerified($userArray->emailVerified);
+        $this->setName($userArray->name);
+        $this->setGivenName($userArray->givenName);
+        $this->setFamilyName($userArray->familyName);
+        $this->setpicture($userArray->picture);
+        $this->setLocale($userArray->locale);
     }
 }

@@ -1,0 +1,5 @@
+---
+server:
+  path: ./public/
+  port: 8000
+  file: index.php
