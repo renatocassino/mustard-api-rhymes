@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Helper\JwtParse;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -40,6 +41,10 @@ class UserRepository extends ServiceEntityRepository
         $entityManager->flush();
 
         return $user;
+    }
+
+    public function getUserByToken($token) {
+        return JwtParse::decode($token);
     }
 
     // /**
