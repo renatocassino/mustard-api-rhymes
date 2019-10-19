@@ -56,6 +56,8 @@ class OauthController extends AbstractController {
       ->getRepository(User::class)
       ->createOrUpdate($data);
 
+    $urlToRedirect = \getenv('URL_FE');
+    if (!$urlToRedirect) $urlToRedirect = 'localhost:3000';
     return $this->redirect('http://localhost:3000/#' . JwtParse::encode($user));
   }
 }
