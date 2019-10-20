@@ -100,4 +100,61 @@ class LyricsController extends AbstractController implements AuthenticatedContro
       ]
     ]);
   }
+
+  /**
+   * @Route("/api/v1/lyrics/{id}", methods={"PUT"})
+   */
+  public function updateLyric(Request $request, $id) {
+    $user = $this->getUserByToken($request);
+    $data = json_decode($request->getContent());
+
+    $entityManager = $this->getDoctrine()->getEntityManager();
+
+    $lyric = $this->getDoctrine()->getRepository(Lyric::class)->find($id);
+    if ($lyric->getUser()->getId() !== $user->getId()) {
+      return $this->json([
+        'error' => 'You cannot edit another lyric',
+      ], 403);
+    }
+
+    $lyric->setTitle($data->title);
+    $lyric->setLyric($data->lyric);
+    $lyric->setUpdatedAt(new \DateTime());
+
+    $entityManager->persist($lyric);
+    $entityManager->flush();
+
+    return $this->json([
+      'data' => [
+        'id' => $lyric->getId(),
+        'title' => $lyric->getTitle(),
+        'lyric' => $lyric->getLyric(),
+        'createdAt' => $lyric->getCreatedAt(),
+        'updatedAt' => $lyric->getUpdatedAt(),
+      ]
+    ]);
+  }
+
+
+  /**
+   * @Route("/api/v1/lyrics/{id}", methods={"DELETE"})
+   */
+  public function deleteLyric(Request $request, $id) {
+    $user = $this->getUserByToken($request);
+    $data = json_decode($request->getContent());
+
+    $entityManager = $this->getDoctrine()->getEntityManager();
+
+    $lyric = $this->getDoctrine()->getRepository(Lyric::class)->find($id);
+    if ($lyric->getUser()->getId() !== $user->getId()) {
+      return $this->json([
+        'error' => 'You cannot edit another lyric',
+      ], 403);
+    }
+
+    $entityManager->remove($lyric);
+    $entityManager->flush();
+
+    return $this->json([], 204);
+  }
 }
