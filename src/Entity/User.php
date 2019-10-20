@@ -196,18 +196,22 @@ class User implements \JsonSerializable
         ];
     }
 
+    public function setByObj($userStd) {
+        $this->setId($userStd->id);
+        $this->setGoogleId($userStd->googleId);
+        $this->setEmail($userStd->email);
+        $this->setEmailVerified($userStd->emailVerified);
+        $this->setName($userStd->name);
+        $this->setGivenName($userStd->givenName);
+        $this->setFamilyName($userStd->familyName);
+        $this->setpicture($userStd->picture);
+        $this->setLocale($userStd->locale);
+    }
+
     public function setByToken($token) {
         $data64 = explode('.', $token)[1];
-        $userArray = json_decode(base64_decode($data64));
+        $userStd = json_decode(base64_decode($data64));
 
-        $this->setId($userArray->id);
-        $this->setGoogleId($userArray->googleId);
-        $this->setEmail($userArray->email);
-        $this->setEmailVerified($userArray->emailVerified);
-        $this->setName($userArray->name);
-        $this->setGivenName($userArray->givenName);
-        $this->setFamilyName($userArray->familyName);
-        $this->setpicture($userArray->picture);
-        $this->setLocale($userArray->locale);
+        $this->setByObj($userStd);
     }
 }

@@ -12,7 +12,9 @@ trait AuthTraitController {
   public function getUserByToken(Request $request) {
     if ($this->_user === null) {
       $token = $request->attributes->get('auth_token');
-      $this->_user = $this->getDoctrine()->getRepository(User::class)->getUserByToken($token);
+      $user = $this->getDoctrine()->getRepository(User::class)->getUserByToken($token);
+      $this->_user = new User();
+      $this->_user->setByObj($user);
     }
 
     return $this->_user;

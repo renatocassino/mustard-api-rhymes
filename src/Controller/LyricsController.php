@@ -12,19 +12,19 @@ class LyricsController extends AbstractController implements AuthenticatedContro
   use AuthTraitController;
 
   /**
-   * @Route("/api/v1/lyrics")
+   * @Route("/api/v1/lyrics", methods={"GET","HEAD"})
    */
   public function listLyrics(Request $request) {
     $user = $this->getUserByToken($request);
     // $userDB = $this->getDoctrine()
     //   ->getRepository(User::class)
-    //   ->find($user->id);
+    //   ->find($user->getId());
 
     // $lyrics = $userDB->getLyrics();
     $lyrics = $this->getDoctrine()
       ->getRepository(Lyric::class)
       ->findBy([
-        'user' => $user->id,
+        'user' => $user->getId(),
       ]);
 
     return $this->json([
@@ -41,7 +41,7 @@ class LyricsController extends AbstractController implements AuthenticatedContro
   }
 
   /**
-   * @Route("/api/v1/lyrics/{id}")
+   * @Route("/api/v1/lyrics/{id}", methods={"GET","HEAD"})
    */
   public function viewLyric(Request $request, $id) {
     $user = $this->getUserByToken($request);
@@ -49,7 +49,7 @@ class LyricsController extends AbstractController implements AuthenticatedContro
     $lyric = $this->getDoctrine()
       ->getRepository(Lyric::class)
       ->findOneBy([
-        'user' => $user->id,
+        'user' => $user->getId(),
         'id' => $id,
       ]);
 
@@ -58,6 +58,37 @@ class LyricsController extends AbstractController implements AuthenticatedContro
         'error' => 'Cannot find this lyric :/'
       ], 404);
     }
+
+    return $this->json([
+      'data' => [
+        'id' => $lyric->getId(),
+        'title' => $lyric->getTitle(),
+        'lyric' => $lyric->getLyric(),
+        'createdAt' => $lyric->getCreatedAt(),
+        'updatedAt' => $lyric->getUpdatedAt(),
+      ]
+    ]);
+  }
+
+  /**
+   * @Route("/api/v1/lyrics", methods={"POST"})
+   */
+  public function createLyric(Request $request) {
+    $userJWT = $this->getUserByToken($request);
+    $user = $this->getDoctrine()->getRepository(User::class)->find($userJWT->getId());
+    $data = json_decode($request->getContent());
+
+    $entityManager = $this->getDoctrine()->getEntityManager();
+
+    $lyric = new Lyric();
+    $lyric->setUser($user);
+    $lyric->setTitle($data->title);
+    $lyric->setLyric($data->lyric);
+    $lyric->setCreatedAt(new \DateTime());
+    $lyric->setUpdatedAt(new \DateTime());
+
+    $entityManager->persist($lyric);
+    $entityManager->flush();
 
     return $this->json([
       'data' => [
