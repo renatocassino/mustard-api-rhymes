@@ -37,7 +37,7 @@ class LyricsController extends AbstractController implements AuthenticatedContro
           'updatedAt' => $lyric->getUpdatedAt(),
         ];
       }, $lyrics)
-    ]);
+    ], 200, ['Access-Control-Allow-Origin' => '*']);
   }
 
   /**
@@ -67,7 +67,7 @@ class LyricsController extends AbstractController implements AuthenticatedContro
         'createdAt' => $lyric->getCreatedAt(),
         'updatedAt' => $lyric->getUpdatedAt(),
       ]
-    ]);
+      ], 200, ['Access-Control-Allow-Origin' => '*']);
   }
 
   /**
@@ -98,11 +98,11 @@ class LyricsController extends AbstractController implements AuthenticatedContro
         'createdAt' => $lyric->getCreatedAt(),
         'updatedAt' => $lyric->getUpdatedAt(),
       ]
-    ]);
+      ], 200, ['Access-Control-Allow-Origin' => '*']);
   }
 
   /**
-   * @Route("/api/v1/lyrics/{id}", methods={"PUT"})
+   * @Route("/api/v1/lyrics/{id}", methods={"PUT", "OPTIONS"})
    */
   public function updateLyric(Request $request, $id) {
     $user = $this->getUserByToken($request);
@@ -132,12 +132,12 @@ class LyricsController extends AbstractController implements AuthenticatedContro
         'createdAt' => $lyric->getCreatedAt(),
         'updatedAt' => $lyric->getUpdatedAt(),
       ]
-    ]);
+      ], 200, ['Access-Control-Allow-Origin' => '*']);
   }
 
 
   /**
-   * @Route("/api/v1/lyrics/{id}", methods={"DELETE"})
+   * @Route("/api/v1/lyrics/{id}", methods={"DELETE", "OPTIONS"})
    */
   public function deleteLyric(Request $request, $id) {
     $user = $this->getUserByToken($request);
@@ -155,6 +155,6 @@ class LyricsController extends AbstractController implements AuthenticatedContro
     $entityManager->remove($lyric);
     $entityManager->flush();
 
-    return $this->json([], 204);
+    return $this->json([], 204, ['Access-Control-Allow-Origin' => '*']);
   }
 }
