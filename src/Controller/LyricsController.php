@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Lyric;
 use App\Entity\User;
 
@@ -102,7 +103,7 @@ class LyricsController extends AbstractController implements AuthenticatedContro
   }
 
   /**
-   * @Route("/api/v1/lyrics/{id}", methods={"PUT", "OPTIONS"})
+   * @Route("/api/v1/lyrics/{id}", methods={"PUT"})
    */
   public function updateLyric(Request $request, $id) {
     $user = $this->getUserByToken($request);
@@ -135,9 +136,22 @@ class LyricsController extends AbstractController implements AuthenticatedContro
       ], 200, ['Access-Control-Allow-Origin' => '*']);
   }
 
+  /**
+   * @Route("/api/v1/lyrics/{id}", methods={"OPTIONS"})
+   */
+  public function options() {
+    $response = new Response('');
+    $response->headers->set('Access-Control-Allow-Origin', '*');
+    $response->headers->set('Access-Control-Allow-Methods', '*');
+    $response->headers->set('Content-Length', 0);
+    $response->headers->set('Access-Control-Allow-Headers', '*');
+    $response->headers->set('Access-Control-Max-Age', 1728000);
+
+    return $response;
+  }
 
   /**
-   * @Route("/api/v1/lyrics/{id}", methods={"DELETE", "OPTIONS"})
+   * @Route("/api/v1/lyrics/{id}", methods={"DELETE"})
    */
   public function deleteLyric(Request $request, $id) {
     $user = $this->getUserByToken($request);
